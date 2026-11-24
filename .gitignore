@@ -1,0 +1,28 @@
+# PlatformIO and local editor state
+.pio/
+.pioenvs/
+.piolibdeps/
+.vscode/
+.idea/
+*.code-workspace
+
+# Local credentials and identifying configuration
+.env
+.env.*
+!.env.example
+secrets.h
+**/secrets.h
+secrets.ini
+**/secrets.ini
+config.local.h
+**/config.local.h
+
+# Build, logs and operating-system debris
+build/
+*.bin
+*.elf
+*.map
+*.log
+.DS_Store
+Thumbs.db
+__pycache__/
