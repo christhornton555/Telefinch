@@ -1,8 +1,8 @@
 # Telefinch — handover
 
-**Updated:** 24 November 2026
-**Stage:** repository initialisation / environment checks outstanding.
-**Verified state:** GitHub repository created, public and writable. Hardware has **not** been accessed from this session. No toolchain install, compilation, USB connection, firmware flash or sensor decoding has been verified.
+**Updated:** 25 November 2026
+**Stage:** M0 paused by human decision — USB enumeration blocker.
+**State:** GitHub repository initialised and local clone verified by user. Factory Wi-Fi dashboard deployment successful (user report). PlatformIO extension installed; core/build not verified. No custom firmware compilation, flash or sensor decoding yet.
 
 ## Project and intent
 - A pleasant, passive e-paper information display named **Telefinch**.
@@ -10,21 +10,29 @@
 - External sensor: RuuviTag with firmware reported as **Ruuvi FW v3.31.1+default**; BLE readings previously observed from an Android phone. Format 5/RAWv2 expected, not yet confirmed by this ESP32.
 - Sensor identity/target: store local identifier privately if needed; do not embed its real MAC in public repository.
 - Internal sensor: E1001 SHT4x temperature/humidity over I²C, documented by Seeed; not yet read.
-- Development: Ubuntu laptop. Main Windows PC is unstable and undergoing backup, so keep work independent from it.
+- Development: Windows 10 laptop (corrected from earlier Ubuntu assumption). Main PC stability work takes priority.
 - Goal: visible live outdoor temperature/humidity/pressure and indoor temperature/humidity; periodic ~60-second display update; USB-powered and offline.
 
-## Next action — collect environment evidence
-On the Ubuntu laptop with the E1001 connected via USB-C:
-```sh
-lsb_release -ds
-python3 --version
-git --version
-code --version
-lsusb
-ls -l /dev/ttyUSB* /dev/ttyACM* 2>/dev/null
-groups
-```
-Record results in this handover. Then install PlatformIO if necessary, verify serial access, and use the official E1001 display example before composing the dashboard.
+## M0 evidence (24–25 November 2026)
+- Windows 10 laptop, VS Code 1.136.0, Python 3.14.7, Git 2.45.0.windows.1.
+- PlatformIO IDE extension 3.3.4 and C/C++ extension 1.35.6 installed successfully; PlatformIO core and compiler not yet verified.
+- Local clone was clean and synchronised at a541717 before this checkpoint.
+- E1001 boots, charges via USB, connects to Wi-Fi and successfully installs a SenseCraft gallery dashboard (user reports).
+- USB: no COM ports returned by Get-PnpDevice or [System.IO.Ports.SerialPort]::GetPortNames(); before/after PnP comparison returned no new devices. Device Manager showed no visible tree change and no Windows connection sound.
+- Supplied cable and known working laser-cutter data cable tested; both laptop USB ports tested. Boot, refresh and long-press refresh tested. WCH CH340 driver installation made no difference.
+- Root cause remains unknown. Charging and working factory firmware do not exclude a fault in the separate USB data path; Windows/driver issues are also not excluded.
+- No supported initial arbitrary-firmware OTA route was identified in the Seeed documentation reviewed during discussion. SenseCraft dashboard deployment is not equivalent to custom firmware flashing. Do not assume undocumented methods are impossible.
+
+## Restart checklist
+1. Resume when the human chooses, after higher-priority PC stability work.
+2. Pull latest main in the local clone (git pull --ff-only).
+3. Test USB enumeration on a second computer, ideally Windows 11 desktop once stable or Linux if available. Try both USB-C orientations if not already done. No development tools required for enumeration.
+4. Windows: run [System.IO.Ports.SerialPort]::GetPortNames() and inspect Device Manager before/after plugging in. Linux: compare lsusb and check /dev/ttyUSB* and /dev/ttyACM*.
+5. If no enumeration on independent hosts with a known-good data cable, contact Seeed support with the evidence. Do not open the device or attempt unsupported flashing as a default.
+6. Once serial works, verify PlatformIO core/build, confirm factory recovery route, flash the official E1001 display example and proceed to M1/M2.
+7. Prioritise basic authenticated, opt-in OTA after initial USB flashing; preserve offline MVP functionality.
+
+While paused, the human may explore SenseCraft gallery dashboards for design inspiration; no requirement to do so.
 
 ## MVP stages
 1. **M0:** environment and device serial port identified, factory recovery route noted.
@@ -44,3 +52,6 @@ Sequence can change if official examples make another route faster.
 
 ## Mule Method observation (provisional)
 This is a **low-risk lightweight variant** of the current collaboration baseline, not a new standard. The planning conversation and physical testing guide development; Git preserves concise context. Evaluate whether this small documentation footprint actually helps rather than turning the method itself into the deliverable.
+
+### Observation — responding to a blocker (25 November 2026)
+The human chose to pause rather than spend disproportionate effort on a low-risk project while another priority needs attention. The AI initially assumed Ubuntu and issued incompatible commands; the human corrected the OS, and subsequent diagnostics used PowerShell. Human testing established useful positive and negative evidence, but the cause was not resolved. Preserve the distinction between failure to achieve MVP and failure of the collaboration process. The human suggested that examining responses to failure may yield more insight for Mule Method than a frictionless success. Review later whether the lightweight handover enables efficient restart, whether the diagnostic effort was proportionate, and whether the initial environment assumption could have been avoided. This is an observation, not a validated general rule.

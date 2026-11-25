@@ -4,7 +4,7 @@
 
 Telefinch is an open-source, offline-first e-paper dashboard for the **Seeed Studio reTerminal E1001** (ESP32-S3; 800 × 480 monochrome display). Like its namesake bird, it quietly brings information from the outside world into the home.
 
-**Status (24 November 2026):** repository initialisation. No firmware has yet been built, flashed or tested.
+**Status (25 November 2026):** paused at M0 pending USB enumeration on another computer. Factory Wi-Fi dashboard deployment works; no custom firmware has been built, flashed or tested.
 
 ## MVP
 
@@ -22,19 +22,7 @@ Success means **real sensor data appearing on the physical display**, not simply
 
 ## Start here
 
-On the Ubuntu laptop, connect the E1001 by USB-C and run:
-
-```sh
-lsb_release -ds
-python3 --version
-git --version
-code --version
-lsusb
-ls -l /dev/ttyUSB* /dev/ttyACM* 2>/dev/null
-groups
-```
-
-Then install or verify VS Code and PlatformIO and reproduce Seeed's official E1001 display example before integrating the sensor readings. No flashing until the serial port and recovery route are understood.
+Read [HANDOVER.md](HANDOVER.md) for the restart checklist and USB diagnostic history. The current development laptop runs Windows 10; VS Code and the PlatformIO extension are installed. Resume with USB enumeration on an independent computer before attempting a flash.
 
 ## Useful references
 
